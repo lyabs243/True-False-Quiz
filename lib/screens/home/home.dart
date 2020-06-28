@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_true_false/services/localizations.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -13,7 +14,7 @@ class _MyHomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Initial'),
+        title: Text(MyLocalizations.of(context).localization['app_title']),
       ),
       body: Center(
           child: Text('Hello World!')
