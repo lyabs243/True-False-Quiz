@@ -1,3 +1,9 @@
 {
-  "app_title": "True or False Quiz"
+  "app_title": "True or False Quiz",
+  "please_wait": "Please wait...",
+  "sign_in_with_google": "Sign In with Google",
+  "continue_without_signing": "Continue without Signing-In",
+  "term_use_text": "by logging in you accept our ",
+  "term_use": "Terms of use",
+  "error_occured": "Error occured"
 }
