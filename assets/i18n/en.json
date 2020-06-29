@@ -14,5 +14,8 @@
   "latest_results": "Latest Results",
   "about": "About",
   "version": "version",
-  "about_the_app": "is a fun game in the form of true/false choice questions. Your goal is to answer the questions correctly to reach the maximum amount of points! Enjoy the game!"
+  "about_the_app": "is a fun game in the form of true/false choice questions. Your goal is to answer the questions correctly to reach the maximum amount of points! Enjoy the game!",
+  "failed_load_question": "Failed to load question, please check your internet connection and try again",
+  "try_again": "Try again",
+  "finish_game": "Finish Game"
 }

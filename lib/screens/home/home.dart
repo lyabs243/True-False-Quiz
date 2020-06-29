@@ -5,6 +5,7 @@ import 'package:flutter_app_true_false/components/main_button.dart';
 import 'package:flutter_app_true_false/components/quiz_page.dart';
 import 'package:flutter_app_true_false/models/user.dart';
 import 'package:flutter_app_true_false/screens/about/about.dart';
+import 'package:flutter_app_true_false/screens/game_play/game_play.dart';
 import 'package:flutter_app_true_false/screens/home/components/home_header.dart';
 import 'package:flutter_app_true_false/screens/sign_in/sign_in_page.dart';
 import 'package:flutter_app_true_false/services/localizations.dart';
@@ -61,6 +62,10 @@ class _MyHomePageState extends State<HomePage> {
                     MainButton(
                       MyLocalizations.of(context).localization['play'],
                       () {
+                        Navigator.push(context, NoAnimationMaterialPageRoute(builder: (context) {
+                          return GamePlay();
+                        })).then((value) {
+                        });
                       },
                       textAlign: TextAlign.center,
                     ),
