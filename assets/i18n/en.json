@@ -5,5 +5,12 @@
   "continue_without_signing": "Continue without Signing-In",
   "term_use_text": "by logging in you accept our ",
   "term_use": "Terms of use",
-  "error_occured": "Error occured"
+  "error_occured": "Error occured",
+  "text_share_app": "Join me by downloading the fun True or False game for free on ",
+  "sign_in": "Sign In",
+  "sign_out": "Sign Out",
+  "play": "Play",
+  "leaderboard": "Leaderboard",
+  "latest_results": "Latest Results",
+  "about": "About"
 }

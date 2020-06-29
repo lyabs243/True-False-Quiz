@@ -34,6 +34,8 @@ dev_dependencies:
   shared_preferences: ^0.5.7+3
   progress_dialog: ^1.2.4
   fluttertoast: ^4.0.1
+  url_launcher: ^5.4.11
+  share: ^0.6.3+5
 
 
 # For information on the generic Dart part of this file, see the

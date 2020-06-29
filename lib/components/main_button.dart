@@ -9,7 +9,7 @@ class MainButton extends StatelessWidget{
   Color buttonColor;
 
   MainButton(this.title, this.buttonAction, {this.textAlign: TextAlign.left, this.textLeft: '',
-    this.buttonColor: Colors.black});
+    this.buttonColor: Colors.green});
 
   @override
   Widget build(BuildContext context) {
