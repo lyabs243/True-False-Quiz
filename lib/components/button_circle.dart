@@ -6,7 +6,7 @@ class ButtonCircle extends StatelessWidget {
   Color borderColor, fillColor;
   Function onPress;
 
-  ButtonCircle(this.icon, this.onPress, {this.borderColor: Colors.green, this.fillColor: Colors.white});
+  ButtonCircle(this.icon, this.onPress, {this.borderColor: Colors.green, this.fillColor: Colors.green});
 
   @override
   Widget build(BuildContext context) {
