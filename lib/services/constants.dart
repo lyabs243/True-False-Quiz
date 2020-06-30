@@ -13,4 +13,4 @@ const APP_VERSION = '1.0';
 const APP_DATE = 'July 2020';
 const APP_COMPANY_NAME = 'Lyabs Media';
 
-const QUESTION_TIME = 10;
+const QUESTION_TIME = 20;
