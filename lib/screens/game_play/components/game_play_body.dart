@@ -6,10 +6,10 @@ class GamePlayBody extends StatelessWidget {
 
   AnimationController controller;
   Question currentQuestion;
-
+  int points = 0;
   Function onAnswerClicked;
 
-  GamePlayBody(this.controller, this.currentQuestion, this.onAnswerClicked);
+  GamePlayBody(this.controller, this.currentQuestion, this.onAnswerClicked, this.points);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class GamePlayBody extends StatelessWidget {
         children: <Widget>[
           Container(
             child: Text(
-              '50',
+              '$points',
               textScaleFactor: 2.0,
               style: TextStyle(
                   color: Colors.red

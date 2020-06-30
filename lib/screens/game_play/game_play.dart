@@ -22,7 +22,7 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
   List<Question> questions = [];
   bool isLoading = false;
   AnimationController controller;
-  int level = 0, currentQuestionIndex = 0, lifes = constants.TOTAL_LIFES;
+  int level = 0, currentQuestionIndex = 0, lifes = constants.TOTAL_LIFES, points = 0;
   BuildContext _context;
   Question currentQuestion;
 
@@ -106,7 +106,7 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
                     ),
                     Padding(padding: EdgeInsets.only(bottom: (30.0 / 853) * MediaQuery.of(context).size.height),),
                     Container(
-                      child: GamePlayBody(controller, currentQuestion, this.onAnswerClicked),
+                      child: GamePlayBody(controller, currentQuestion, this.onAnswerClicked, this.points),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 80 / 100,
                     )
@@ -130,6 +130,9 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
   void onAnswerClicked(bool answer) async {
     controller.stop();
     if (currentQuestion.answer == answer && controller.value > 0) {
+      setState(() {
+        points += constants.QUESTION_POINTS[level];
+      });
       //load another question
       loadQuestion(true);
     }

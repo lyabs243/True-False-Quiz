@@ -15,3 +15,6 @@ const APP_COMPANY_NAME = 'Lyabs Media';
 
 const QUESTION_TIME = 20;
 const TOTAL_LIFES = 3;
+
+//points of questions by levels
+final List<int> QUESTION_POINTS = [5, 10, 20];
