@@ -3,6 +3,7 @@ import 'package:flutter_app_true_false/components/layout_load.dart';
 import 'package:flutter_app_true_false/components/quiz_page.dart';
 import 'package:flutter_app_true_false/models/question.dart';
 import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_answer_transition.dart';
+import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_game_finished.dart';
 import '../../services/constants.dart' as constants;
 import 'components/game_play_body.dart';
 import 'components/game_play_header.dart';
@@ -34,7 +35,11 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
   }
 
   play() async {
-    level = 0;
+    setState(() {
+      level = 0;
+      lifes = constants.TOTAL_LIFES;
+      points = 0;
+    });
     initData();
   }
 
@@ -58,6 +63,9 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
         });
         if (lifes > 0) {
           loadQuestion(false);
+        }
+        else {
+          finishGame();
         }
       }
     });
@@ -101,7 +109,9 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
                   children: <Widget>[
                     Padding(padding: EdgeInsets.only(top: 40.0),),
                     Container(
-                      child: GamePlayHeader(lifes: lifes,),
+                      child: GamePlayHeader(() {
+                        //Navigator.pop(context);
+                      }, lifes: lifes,),
                       width: MediaQuery.of(context).size.width,
                     ),
                     Padding(padding: EdgeInsets.only(bottom: (30.0 / 853) * MediaQuery.of(context).size.height),),
@@ -143,6 +153,9 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
       if (lifes > 0) {
         loadQuestion(false);
       }
+      else {
+        finishGame();
+      }
     }
   }
 
@@ -178,6 +191,21 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
       barrierDismissible: false,
       builder: (BuildContext context) => DialogAnswerTransition(isCorrect: isCorrect,),
     );
+  }
+
+  Future finishGame() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => DialogGameFinished(this.points),
+    ).then((value) {
+      if (value) { //try again
+        play();
+      }
+      else { //go home
+        Navigator.pop(context);
+      }
+    });
   }
 
 }

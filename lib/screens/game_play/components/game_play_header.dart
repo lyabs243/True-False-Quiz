@@ -6,9 +6,10 @@ import '../../../services/constants.dart' as constants;
 class GamePlayHeader extends StatelessWidget {
 
   int lifes;
+  Function onExitGame;
   List<Widget> lifesIcons = [];
 
-  GamePlayHeader({this.lifes: constants.TOTAL_LIFES});
+  GamePlayHeader(this.onExitGame, {this.lifes: constants.TOTAL_LIFES});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class GamePlayHeader extends StatelessWidget {
                 color: Colors.white,
               ),
               () {
-                //this.onExitGame();
+                this.onExitGame();
               }
           ),
           width: (MediaQuery.of(context).size.width * 65 / 100) / 5,
