@@ -20,7 +20,11 @@
   "finish_game": "Finish Game",
   "game_over": "Game Over",
   "finish_you_got": "Finish, you got ",
+  "you_have": "You have ",
   "points": "points",
   "go_home": "Go Home",
-  "play_again": "Play Again"
+  "play_again": "Play Again",
+  "finish": "Finish",
+  "continue_playing": "Continue Playing",
+  "want_finish_game": "Do you really wants to finish game now?"
 }

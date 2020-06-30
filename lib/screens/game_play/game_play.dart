@@ -3,6 +3,7 @@ import 'package:flutter_app_true_false/components/layout_load.dart';
 import 'package:flutter_app_true_false/components/quiz_page.dart';
 import 'package:flutter_app_true_false/models/question.dart';
 import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_answer_transition.dart';
+import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_finish_game.dart';
 import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_game_finished.dart';
 import '../../services/constants.dart' as constants;
 import 'components/game_play_body.dart';
@@ -111,7 +112,7 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
                     Container(
                       child: GamePlayHeader(() {
                         //Navigator.pop(context);
-                      }, lifes: lifes,),
+                      }, this.forceGameFinish, lifes: lifes,),
                       width: MediaQuery.of(context).size.width,
                     ),
                     Padding(padding: EdgeInsets.only(bottom: (30.0 / 853) * MediaQuery.of(context).size.height),),
@@ -204,6 +205,22 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
       }
       else { //go home
         Navigator.pop(context);
+      }
+    });
+  }
+
+  Future forceGameFinish() async {
+    controller.stop();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => DialogFinishGame(this.points),
+    ).then((value) {
+      if (value) { //try again
+        finishGame();
+      }
+      else { //go home
+        controller.reverse(from: controller.value);
       }
     });
   }

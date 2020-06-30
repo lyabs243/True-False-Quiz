@@ -7,9 +7,10 @@ class GamePlayHeader extends StatelessWidget {
 
   int lifes;
   Function onExitGame;
+  Function onFinishGame;
   List<Widget> lifesIcons = [];
 
-  GamePlayHeader(this.onExitGame, {this.lifes: constants.TOTAL_LIFES});
+  GamePlayHeader(this.onExitGame, this.onFinishGame, {this.lifes: constants.TOTAL_LIFES});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,9 @@ class GamePlayHeader extends StatelessWidget {
         Container(
           height: (40.0 / 853) * MediaQuery.of(context).size.height,
           child: new RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              this.onFinishGame();
+            },
             highlightColor: Colors.green[700],
             child: SizedBox(
               child: Text(
