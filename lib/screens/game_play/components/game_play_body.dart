@@ -57,7 +57,7 @@ class GamePlayBody extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    this.onAnswerClicked();
+                    this.onAnswerClicked(true);
                   },
                 ),
                 InkWell(
@@ -68,7 +68,7 @@ class GamePlayBody extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    this.onAnswerClicked();
+                    this.onAnswerClicked(false);
                   },
                 )
               ],

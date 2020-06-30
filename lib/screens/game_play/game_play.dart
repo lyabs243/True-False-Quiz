@@ -121,28 +121,30 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
         });
   }
 
-  void onAnswerClicked() async {
+  void onAnswerClicked(bool answer) async {
     controller.stop();
-    //load another question
-    if(currentQuestionIndex < questions.length) {
-      setState(() {
-        currentQuestion = questions[currentQuestionIndex++];
-        controller.stop();
-      });
-    }
-    else {
-      if(level < 2) {
+    if (currentQuestion.answer == answer && controller.value > 0) {
+      //load another question
+      if(currentQuestionIndex < questions.length) {
         setState(() {
-          level += 1;
-          initQuestions(transition: true);
+          currentQuestion = questions[currentQuestionIndex++];
         });
+        controller.reverse(from: double.parse(constants.QUESTION_TIME.toString()));
       }
       else {
-        //return to level 0 and continue iteration
-        setState(() {
-          level = 0;
-          initQuestions(transition: true);
-        });
+        if(level < 2) {
+          setState(() {
+            level += 1;
+            initQuestions(transition: true);
+          });
+        }
+        else {
+          //return to level 0 and continue iteration
+          setState(() {
+            level = 0;
+            initQuestions(transition: true);
+          });
+        }
       }
     }
   }
