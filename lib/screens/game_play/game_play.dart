@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_true_false/components/layout_load.dart';
 import 'package:flutter_app_true_false/components/quiz_page.dart';
 import 'package:flutter_app_true_false/models/question.dart';
+import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_answer_transition.dart';
 import '../../services/constants.dart' as constants;
 import 'components/game_play_body.dart';
 import 'components/game_play_header.dart';
@@ -129,7 +130,9 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
         setState(() {
           currentQuestion = questions[currentQuestionIndex++];
         });
-        controller.reverse(from: double.parse(constants.QUESTION_TIME.toString()));
+        showTransition(true).then((value) {
+          controller.reverse(from: double.parse(constants.QUESTION_TIME.toString()));
+        });
       }
       else {
         if(level < 2) {
@@ -147,6 +150,18 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
         }
       }
     }
+    else {
+      showTransition(false).then((value) {
+      });
+    }
+  }
+
+  Future showTransition(bool isCorrect) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => DialogAnswerTransition(isCorrect: isCorrect,),
+    );
   }
 
 }
