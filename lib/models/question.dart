@@ -43,7 +43,7 @@ class Question {
     int id = int.parse(item['id']);
     String description = item['description'];
     int level = int.parse(item['level']);
-    int answerValue = int.parse(item['level']);
+    int answerValue = int.parse(item['answer']);
     bool answer = (answerValue > 0);
 
     Question question = Question(id, _parseHtmlString(description), level, answer);
