@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_true_false/components/button_circle.dart';
 import 'package:flutter_app_true_false/services/localizations.dart';
+import '../../../services/constants.dart' as constants;
 
 class GamePlayHeader extends StatelessWidget {
 
+  int lifes;
+  List<Widget> lifesIcons = [];
+
+  GamePlayHeader({this.lifes: constants.TOTAL_LIFES});
+
   @override
   Widget build(BuildContext context) {
+    initLifes(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.min,
@@ -46,32 +53,22 @@ class GamePlayHeader extends StatelessWidget {
           ),
         ),
         Row(
-          children: <Widget>[
-            Container(
-              child: Icon(
-                Icons.favorite,
-                color: Colors.red,
-                size: (35.0 / 853) * MediaQuery.of(context).size.height,
-              ),
-            ),
-            Container(
-              child: Icon(
-                Icons.favorite,
-                color: Colors.red,
-                size: (35.0 / 853) * MediaQuery.of(context).size.height,
-              ),
-            ),
-            Container(
-              child: Icon(
-                Icons.favorite,
-                color: Colors.red,
-                size: (35.0 / 853) * MediaQuery.of(context).size.height,
-              ),
-            ),
-          ],
+          children: lifesIcons,
         )
       ],
     );
+  }
+
+  initLifes(BuildContext context) {
+    for (int i = 0; i < constants.TOTAL_LIFES; i++) {
+      lifesIcons.add(Container(
+        child: Icon(
+          Icons.favorite,
+          color: (i < lifes)? Colors.red : Colors.grey[500],
+          size: (35.0 / 853) * MediaQuery.of(context).size.height,
+        ),
+      ));
+    }
   }
 
 }

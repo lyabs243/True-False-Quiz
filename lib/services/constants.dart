@@ -14,3 +14,4 @@ const APP_DATE = 'July 2020';
 const APP_COMPANY_NAME = 'Lyabs Media';
 
 const QUESTION_TIME = 20;
+const TOTAL_LIFES = 3;

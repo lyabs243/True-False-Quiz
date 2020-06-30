@@ -22,7 +22,7 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
   List<Question> questions = [];
   bool isLoading = false;
   AnimationController controller;
-  int level = 0, currentQuestionIndex = 0;
+  int level = 0, currentQuestionIndex = 0, lifes = constants.TOTAL_LIFES;
   BuildContext _context;
   Question currentQuestion;
 
@@ -53,7 +53,12 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
     );
     controller.addStatusListener((status) {
       if(status == AnimationStatus.dismissed) {
-
+        setState(() {
+          lifes--;
+        });
+        if (lifes > 0) {
+          loadQuestion(false);
+        }
       }
     });
     play();
@@ -96,7 +101,7 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
                   children: <Widget>[
                     Padding(padding: EdgeInsets.only(top: 40.0),),
                     Container(
-                      child: GamePlayHeader(),
+                      child: GamePlayHeader(lifes: lifes,),
                       width: MediaQuery.of(context).size.width,
                     ),
                     Padding(padding: EdgeInsets.only(bottom: (30.0 / 853) * MediaQuery.of(context).size.height),),
@@ -126,33 +131,41 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
     controller.stop();
     if (currentQuestion.answer == answer && controller.value > 0) {
       //load another question
-      if(currentQuestionIndex < questions.length) {
+      loadQuestion(true);
+    }
+    else {
+      setState(() {
+        lifes--;
+      });
+      if (lifes > 0) {
+        loadQuestion(false);
+      }
+    }
+  }
+
+  void loadQuestion(bool isCorrect) {
+    if(currentQuestionIndex < questions.length) {
+      setState(() {
+        currentQuestion = questions[currentQuestionIndex++];
+      });
+      showTransition(isCorrect).then((value) {
+        controller.reverse(from: double.parse(constants.QUESTION_TIME.toString()));
+      });
+    }
+    else {
+      if(level < 2) {
         setState(() {
-          currentQuestion = questions[currentQuestionIndex++];
-        });
-        showTransition(true).then((value) {
-          controller.reverse(from: double.parse(constants.QUESTION_TIME.toString()));
+          level += 1;
+          initQuestions(transition: true);
         });
       }
       else {
-        if(level < 2) {
-          setState(() {
-            level += 1;
-            initQuestions(transition: true);
-          });
-        }
-        else {
-          //return to level 0 and continue iteration
-          setState(() {
-            level = 0;
-            initQuestions(transition: true);
-          });
-        }
+        //return to level 0 and continue iteration
+        setState(() {
+          level = 0;
+          initQuestions(transition: true);
+        });
       }
-    }
-    else {
-      showTransition(false).then((value) {
-      });
     }
   }
 
