@@ -29,5 +29,6 @@
   "want_finish_game": "Do you really wants to finish game now?",
   "exit_game": "Exit Game",
   "progress_will_loss": "Are you sure you want to quit the game? Your current progress will be lost.",
-  "exit": "Exit"
+  "exit": "Exit",
+  "close": "Close"
 }

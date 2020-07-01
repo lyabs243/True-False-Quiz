@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_true_false/components/layout_load.dart';
 import 'package:flutter_app_true_false/components/quiz_page.dart';
 import 'package:flutter_app_true_false/models/question.dart';
+import 'package:flutter_app_true_false/models/score.dart';
 import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_answer_transition.dart';
 import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_finish_game.dart';
 import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_game_finished.dart';
@@ -194,6 +195,8 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
   }
 
   Future finishGame() async {
+    //save result
+    Score.addLastResult(new Score(points));
     showDialog(
       context: context,
       barrierDismissible: false,

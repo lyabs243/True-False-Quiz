@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_true_false/components/dialog_latest_results.dart';
 import 'package:flutter_app_true_false/components/layout_app_logo.dart';
 import 'package:flutter_app_true_false/components/layout_load.dart';
 import 'package:flutter_app_true_false/components/main_button.dart';
@@ -80,6 +81,11 @@ class _MyHomePageState extends State<HomePage> {
                     MainButton(
                       MyLocalizations.of(context).localization['latest_results'],
                       () {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) => DialogLatestResults(),
+                        );
                       },
                       textAlign: TextAlign.center,
                     ),
