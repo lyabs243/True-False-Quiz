@@ -52,7 +52,7 @@ class DialogFinishGame extends StatelessWidget {
             mainAxisSize: MainAxisSize.min, // To make the card compact
             children: <Widget>[
               Text(
-                MyLocalizations.of(context).localization['game_over'],
+                MyLocalizations.of(context).localization['finish_game'],
                 style: TextStyle(
                   fontSize: (24.0 / 853) * MediaQuery.of(context).size.height,
                   fontWeight: FontWeight.w700,
