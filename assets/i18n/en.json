@@ -34,5 +34,9 @@
   "this_month": "This Month",
   "this_week": "This Week",
   "must_signin_leaderboard": "You must siging in to see leaderboard.",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "audio": "Audio",
+  "settings_updated": "Settings updated",
+  "save": "Save",
+  "settings": "Settings"
 }

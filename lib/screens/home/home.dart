@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_true_false/components/dialog_latest_results.dart';
 import 'package:flutter_app_true_false/components/dialog_leaderboard.dart';
+import 'package:flutter_app_true_false/components/dialog_settings.dart';
 import 'package:flutter_app_true_false/components/layout_app_logo.dart';
 import 'package:flutter_app_true_false/components/layout_load.dart';
 import 'package:flutter_app_true_false/components/main_button.dart';
 import 'package:flutter_app_true_false/components/quiz_page.dart';
+import 'package:flutter_app_true_false/models/settings.dart';
 import 'package:flutter_app_true_false/models/user.dart';
 import 'package:flutter_app_true_false/screens/about/about.dart';
 import 'package:flutter_app_true_false/screens/game_play/game_play.dart';
@@ -30,6 +32,8 @@ class _MyHomePageState extends State<HomePage> {
   User currentUser;
   bool isLoading = true;
 
+  Settings _settings;
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +41,11 @@ class _MyHomePageState extends State<HomePage> {
       setState(() {
         currentUser = _user;
         isLoading = false;
+      });
+    });
+    Settings.getInstance().then((value) {
+      setState(() {
+        _settings = value;
       });
     });
   }
@@ -154,6 +163,19 @@ class _MyHomePageState extends State<HomePage> {
     }
   }
 
+  void actionSettings() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => DialogSettings(),
+    ).then((value) {
+      Settings.settingsInstance = value;
+      setState(() {
+        _settings = value;
+      });
+    });
+  }
+
   void actionShare() {
     Share.share(MyLocalizations.instanceLocalization['text_share_app'] +
         'https://play.google.com/store/apps/details?id=${constants.APP_PACKAGE}');
@@ -161,9 +183,5 @@ class _MyHomePageState extends State<HomePage> {
 
   void actionRatingApp() {
     launch('https://play.google.com/store/apps/details?id=${constants.APP_PACKAGE}');
-  }
-
-  void actionSettings() {
-
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_app_true_false/components/quiz_page.dart';
 import 'package:flutter_app_true_false/models/leaderboard.dart';
 import 'package:flutter_app_true_false/models/question.dart';
 import 'package:flutter_app_true_false/models/score.dart';
+import 'package:flutter_app_true_false/models/settings.dart';
 import 'package:flutter_app_true_false/models/user.dart';
 import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_answer_transition.dart';
 import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_finish_game.dart';
@@ -13,6 +14,8 @@ import 'components/dialog/dialog_want_exit.dart';
 import 'components/game_play_body.dart';
 import 'components/game_play_header.dart';
 import 'components/layout_question_load_failed.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class GamePlay extends StatefulWidget {
 
@@ -31,11 +34,22 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
   int level = 0, currentQuestionIndex = 0, lifes = constants.TOTAL_LIFES, points = 0;
   BuildContext _context;
   Question currentQuestion;
+  AudioCache audioPlayer;
+  AudioPlayer player;
+  Settings _settings;
 
   @override
   void setState(fn) {
     if(mounted){
       super.setState(fn);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if(player != null) {
+      player.dispose();
     }
   }
 
@@ -57,6 +71,11 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
   @override
   void initState() {
     super.initState();
+    Settings.getInstance().then((value) {
+      setState(() {
+        _settings = value;
+      });
+    });
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: constants.QUESTION_TIME),
@@ -74,6 +93,7 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
         }
       }
     });
+    audioPlayer = AudioCache();
     play();
   }
 
@@ -143,6 +163,9 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
   void onAnswerClicked(bool answer) async {
     controller.stop();
     if (currentQuestion.answer == answer && controller.value > 0) {
+      if(_settings != null && _settings.audioEnable) {
+        player = await audioPlayer.play('audio/correct-choice.wav');
+      }
       setState(() {
         points += constants.QUESTION_POINTS[level];
       });
@@ -150,6 +173,9 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
       loadQuestion(true);
     }
     else {
+      if(_settings != null && _settings.audioEnable) {
+        player = await audioPlayer.play('audio/wrong-choice.wav');
+      }
       setState(() {
         lifes--;
       });
@@ -205,6 +231,9 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
         LeaderBoard.addGameResult(context, _user.id, points);
       }
     });
+    if(_settings != null && _settings.audioEnable) {
+      player = await audioPlayer.play('audio/game-over.wav');
+    }
     showDialog(
       context: context,
       barrierDismissible: false,
