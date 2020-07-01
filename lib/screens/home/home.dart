@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_true_false/components/dialog_latest_results.dart';
+import 'package:flutter_app_true_false/components/dialog_leaderboard.dart';
 import 'package:flutter_app_true_false/components/layout_app_logo.dart';
 import 'package:flutter_app_true_false/components/layout_load.dart';
 import 'package:flutter_app_true_false/components/main_button.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_app_true_false/components/quiz_page.dart';
 import 'package:flutter_app_true_false/models/user.dart';
 import 'package:flutter_app_true_false/screens/about/about.dart';
 import 'package:flutter_app_true_false/screens/game_play/game_play.dart';
+import 'package:flutter_app_true_false/screens/home/components/dialog_must_signin.dart';
 import 'package:flutter_app_true_false/screens/home/components/home_header.dart';
 import 'package:flutter_app_true_false/screens/sign_in/sign_in_page.dart';
 import 'package:flutter_app_true_false/services/localizations.dart';
@@ -74,6 +76,26 @@ class _MyHomePageState extends State<HomePage> {
                     MainButton(
                       MyLocalizations.of(context).localization['leaderboard'],
                       () {
+                        if (currentUser.id.length > 0) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) => DialogLeaderBoard(),
+                          );
+                        }
+                        else {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) => DialogMustSignin(),
+                          ).then((value) {
+                            if (value) {
+                              Navigator.pushReplacement(context, NoAnimationMaterialPageRoute(builder: (context) {
+                                return SignInPage();
+                              }));
+                            }
+                          });
+                        }
                       },
                       textAlign: TextAlign.center,
                     ),
