@@ -18,3 +18,5 @@ const TOTAL_LIFES = 3;
 
 //points of questions by levels
 final List<int> QUESTION_POINTS = [5, 10, 20];
+
+final bool QUESTION_FROM_OPEN_TRIVIA_DB = true;

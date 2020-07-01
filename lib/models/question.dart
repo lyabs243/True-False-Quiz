@@ -13,12 +13,20 @@ class Question {
   bool answer;
 
   static final String URL_GET_QUESTIONS = constants.BASE_URL + 'index.php/api/get_questions/';
+  static final String URL_GET_OPEN_DB_QUESTIONS = 'https://opentdb.com/api.php?';
+
+  static final List<String> OPEN_DB_DIFFICULTIES = ['easy', 'medium', 'hard'];
 
   Question(this.id, this.description, this.level, this.answer);
 
   static Future getQuestions(BuildContext context, int level) async {
     List<Question> questions = [];
-    questions = await _getQuestionFromServer(context, level);
+    if (constants.QUESTION_FROM_OPEN_TRIVIA_DB) {
+      questions = await _getQuestionFromOpenDB(context, level);
+    }
+    else {
+      questions = await _getQuestionFromServer(context, level);
+    }
     return questions;
   }
 
@@ -31,6 +39,25 @@ class Question {
         if(map['data'] != null) {
           for (int i = 0; i < map['data'].length; i++) {
             Question question = Question.getFromMap(map['data'][i]);
+            questions.add(question);
+          }
+        }
+      }
+    });
+    return questions;
+  }
+
+  static Future _getQuestionFromOpenDB(BuildContext context, int level) async {
+    List<Question> questions = [];
+    await Api(context).getJsonFromServer(
+        URL_GET_OPEN_DB_QUESTIONS + 'amount=' + constants.QUESTION_NUMBER.toString() + '&difficulty=' +
+            OPEN_DB_DIFFICULTIES[level] + '&type=boolean'
+        , null).then((map) {
+      if (map != null) {
+        if(map['results'] != null) {
+          for (int i = 0; i < map['results'].length; i++) {
+            bool answer = (map['results'][i]['correct_answer'] == 'True');
+            Question question = Question(-1, _parseHtmlString(map['results'][i]['question']), level, answer);
             questions.add(question);
           }
         }
