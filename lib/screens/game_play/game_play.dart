@@ -6,6 +6,7 @@ import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialo
 import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_finish_game.dart';
 import 'package:flutter_app_true_false/screens/game_play/components/dialog/dialog_game_finished.dart';
 import '../../services/constants.dart' as constants;
+import 'components/dialog/dialog_want_exit.dart';
 import 'components/game_play_body.dart';
 import 'components/game_play_header.dart';
 import 'components/layout_question_load_failed.dart';
@@ -110,9 +111,7 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
                   children: <Widget>[
                     Padding(padding: EdgeInsets.only(top: 40.0),),
                     Container(
-                      child: GamePlayHeader(() {
-                        //Navigator.pop(context);
-                      }, this.forceGameFinish, lifes: lifes,),
+                      child: GamePlayHeader(this.exitGame, this.forceGameFinish, lifes: lifes,),
                       width: MediaQuery.of(context).size.width,
                     ),
                     Padding(padding: EdgeInsets.only(bottom: (30.0 / 853) * MediaQuery.of(context).size.height),),
@@ -218,6 +217,22 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
     ).then((value) {
       if (value) { //try again
         finishGame();
+      }
+      else { //go home
+        controller.reverse(from: controller.value);
+      }
+    });
+  }
+
+  Future exitGame() async {
+    controller.stop();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => DialogWantExit(),
+    ).then((value) {
+      if (value) { //try again
+        Navigator.pop(context);
       }
       else { //go home
         controller.reverse(from: controller.value);
