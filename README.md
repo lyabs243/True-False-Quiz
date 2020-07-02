@@ -44,3 +44,12 @@ To get source code and all informations about admin part of _True or False Quiz_
 - Sign-in with Google
 - Weekly Leaderboard
 - Monthly Leaderboard
+
+## Screenshots
+
+![Sign In Page](/screenshots/TF - Home.jpg)
+![Home Page](/screenshots/TF - Sign In.jpg)
+![Game Play](/screenshots/TF - Game Play.jpg)
+![Game Finished](/screenshots/TF - Game Finished.jpg)
+![Latest Results](/screenshots/TF - Last Results.jpg)
+![Leaderboard](/screenshots/TF - Leaderboard.jpg)
