@@ -47,8 +47,10 @@ To get source code and all informations about admin part of _True or False Quiz_
 
 ## Screenshots
 
-![Sign In Page](/screenshots/TF - Home.jpg)
+<img alt="Sign In Page" src="screenshots/TF - Home.jpg" />
+
 ![Home Page](/screenshots/TF - Sign In.jpg)
+
 ![Game Play](/screenshots/TF - Game Play.jpg)
 ![Game Finished](/screenshots/TF - Game Finished.jpg)
 ![Latest Results](/screenshots/TF - Last Results.jpg)
