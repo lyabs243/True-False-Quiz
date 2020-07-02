@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_true_false/components/countdown_timer.dart';
 import 'package:flutter_app_true_false/models/question.dart';
+import 'package:admob_flutter/admob_flutter.dart';
+import '../../../services/constants.dart' as constants;
+import '../../../services/config.dart' as config;
 
 class GamePlayBody extends StatelessWidget {
 
@@ -8,8 +11,9 @@ class GamePlayBody extends StatelessWidget {
   Question currentQuestion;
   int points = 0;
   Function onAnswerClicked;
+  AdmobBanner admobBanner;
 
-  GamePlayBody(this.controller, this.currentQuestion, this.onAnswerClicked, this.points);
+  GamePlayBody(this.controller, this.currentQuestion, this.onAnswerClicked, this.points, this.admobBanner);
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +37,10 @@ class GamePlayBody extends StatelessWidget {
             width: MediaQuery.of(context).size.width / 5,
             child: CountDownTimer(this.controller),
           ),
+          (constants.SHOW_ADMOB)?
+          Container(
+            child: admobBanner,
+          ): Container(),
           //Padding(padding: EdgeInsets.only(bottom: (40.0 / 853) * MediaQuery.of(context).size.height),),
           Container(
             child: Text(

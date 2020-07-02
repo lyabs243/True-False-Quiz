@@ -1,18 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_true_false/services/localizations.dart';
 import '../../../../services/constants.dart' as constants;
+import 'package:admob_flutter/admob_flutter.dart';
+import '../../../../services/config.dart' as config;
 
 class DialogGameFinished extends StatelessWidget {
 
   int points = 0;
   BuildContext _context;
+  AdmobBanner admobBanner;
+  AdmobInterstitial interstitialAd;
+  bool playAgain = true;
 
-  DialogGameFinished(this.points);
-
+  DialogGameFinished(this.points) {
+    if(constants.SHOW_ADMOB) {
+      interstitialAd = AdmobInterstitial(
+        adUnitId: config.ADMOB_INTERSTITIAL_ID,
+        listener: (AdmobAdEvent event, Map<String, dynamic> args) async {
+          if (event == AdmobAdEvent.closed ||
+              event == AdmobAdEvent.failedToLoad) {
+            Navigator.of(_context).pop(playAgain);
+          }
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     _context = context;
+    if(constants.SHOW_ADMOB) {
+      interstitialAd.isLoaded.then((value) {
+        if (!value) {
+          interstitialAd.load();
+        }
+      });
+      admobBanner = AdmobBanner(
+        adUnitId: config.ADMOB_BANNER_ID,
+        adSize: AdmobBannerSize.LARGE_BANNER,
+        listener: (AdmobAdEvent event, Map<String, dynamic> args) {},
+      );
+    }
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Consts.padding),
@@ -60,6 +88,11 @@ class DialogGameFinished extends StatelessWidget {
                 ),
               ),
               SizedBox(height: (30.0 / 853) * MediaQuery.of(context).size.height),
+              (constants.SHOW_ADMOB)?
+              Container(
+                child: admobBanner,
+              ): Container(),
+              SizedBox(height: (30.0 / 853) * MediaQuery.of(context).size.height),
               Container(
                 height: MediaQuery.of(context).size.height / 6,
                 child: Image.asset(
@@ -85,7 +118,13 @@ class DialogGameFinished extends StatelessWidget {
                   children: <Widget>[
                     FlatButton(
                       onPressed: () {
-                        Navigator.of(_context).pop(false);
+                        playAgain = false;
+                        if(constants.SHOW_ADMOB) {
+                          interstitialAd.show();
+                        }
+                        else {
+                          Navigator.of(_context).pop(playAgain);
+                        }
                       },
                       child: Text(
                         MyLocalizations.of(context).localization['go_home'],
@@ -96,7 +135,13 @@ class DialogGameFinished extends StatelessWidget {
                     ),
                     FlatButton(
                       onPressed: () {
-                        Navigator.of(_context).pop(true);
+                        playAgain = true;
+                        if(constants.SHOW_ADMOB) {
+                          interstitialAd.show();
+                        }
+                        else {
+                          Navigator.of(_context).pop(playAgain);
+                        }
                       },
                       child: Text(
                         MyLocalizations.of(context).localization['play_again'],

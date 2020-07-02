@@ -16,6 +16,9 @@ import 'components/game_play_header.dart';
 import 'components/layout_question_load_failed.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:admob_flutter/admob_flutter.dart';
+import '../../services/config.dart' as config;
+import 'package:admob_flutter/admob_flutter.dart';
 
 class GamePlay extends StatefulWidget {
 
@@ -37,6 +40,8 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
   AudioCache audioPlayer;
   AudioPlayer player;
   Settings _settings;
+  AdmobBanner admobBanner;
+  AdmobInterstitial interstitialAd;
 
   @override
   void setState(fn) {
@@ -71,6 +76,25 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
   @override
   void initState() {
     super.initState();
+    if (constants.SHOW_ADMOB) {
+      admobBanner = AdmobBanner(
+        adUnitId: config.ADMOB_BANNER_ID,
+        adSize: AdmobBannerSize.BANNER,
+        listener: (AdmobAdEvent event, Map<String, dynamic> args) {},
+      );
+      interstitialAd = AdmobInterstitial(
+        adUnitId: config.ADMOB_INTERSTITIAL_ID,
+        listener: (AdmobAdEvent event, Map<String, dynamic> args) async {
+          if (event == AdmobAdEvent.closed ||
+              event == AdmobAdEvent.failedToLoad) {
+            controller.reverse(
+                from: double.parse(constants.QUESTION_TIME.toString()));
+            interstitialAd.load();
+          }
+        },
+      );
+      interstitialAd.load();
+    }
     Settings.getInstance().then((value) {
       setState(() {
         _settings = value;
@@ -111,7 +135,13 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
         setState(() {
           currentQuestion = questions[currentQuestionIndex++];
         });
-        controller.reverse(from: double.parse(constants.QUESTION_TIME.toString()));
+        if (constants.SHOW_ADMOB && transition) {
+          interstitialAd.show();
+        }
+        else {
+          controller.reverse(
+              from: double.parse(constants.QUESTION_TIME.toString()));
+        }
       }
     });
   }
@@ -139,7 +169,7 @@ class _GamePlayState extends State<GamePlay>  with TickerProviderStateMixin, Wid
                     ),
                     Padding(padding: EdgeInsets.only(bottom: (30.0 / 853) * MediaQuery.of(context).size.height),),
                     Container(
-                      child: GamePlayBody(controller, currentQuestion, this.onAnswerClicked, this.points),
+                      child: GamePlayBody(controller, currentQuestion, this.onAnswerClicked, this.points, this.admobBanner),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 80 / 100,
                     )

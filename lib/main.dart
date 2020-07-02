@@ -6,7 +6,8 @@ import 'package:flutter_app_true_false/styles/style.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'models/user.dart';
 import 'services/constants.dart' as constants;
-
+import 'services/config.dart' as config;
+import 'package:admob_flutter/admob_flutter.dart';
 import 'services/localizations.dart';
 
 void main() => runApp(MyApp());
@@ -38,6 +39,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    Admob.initialize(config.ADMOB_APP_ID);
     return MaterialApp(
       localizationsDelegates: [
         MyLocalizationsDelegate(),
